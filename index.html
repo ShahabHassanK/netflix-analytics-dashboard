@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Netflix Dashboard</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Netflix Analytics Dashboard</h1>
+            <div class="filters">
+                <label for="yearFilter">Filter by Year:</label>
+                <select id="yearFilter">
+                    <option value="All">All Years</option>
+                </select>
+            </div>
+        </header>
+
+        <section class="kpis" id="kpiSection">
+            <!-- KPIs injected dynamically -->
+        </section>
+
+        <section class="charts">
+            <div class="chart-container" id="pie-chart"></div>
+            <div class="chart-container" id="bar-country"></div>
+            <div class="chart-container" id="bar-director"></div>
+            <div class="chart-container" id="histogram"></div>
+            <div class="chart-container" id="donut-chart"></div>
+            <div class="chart-container" id="heatmap"></div>
+        </section>
+    </div>
+
+    <!-- D3.js Library -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+
+    <!-- Chart & Logic Scripts -->
+    <script src="js/filters.js"></script>
+    <script src="js/kpis.js"></script>
+    <script src="js/pieChart.js"></script>
+    <script src="js/barCountry.js"></script>
+    <script src="js/barDirector.js"></script>
+    <script src="js/histogram.js"></script>
+    <script src="js/donutChart.js"></script>
+    <script src="js/treemap.js"></script>
+</body>
+</html>
