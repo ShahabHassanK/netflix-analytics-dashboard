@@ -5,9 +5,10 @@ function initPieChart(data) {
     const height = 450;
     const radius = Math.min(width, height) / 2 - 50;
 
+    // Updated color: TV Show now yellow
     pieChartColor = d3.scaleOrdinal()
         .domain(["Movie", "TV Show"])
-        .range(["#e50914", "#2a4aff"]);
+        .range(["#e50914", "#FFD700"]); // Red for Movie, Yellow for TV Show
 
     // Create main SVG
     pieChartSvg = d3.select("#pie-chart")

@@ -82,9 +82,9 @@ function updateHistogram(data) {
         .attr("y", d => y(d.length))
         .attr("width", d => x(d.x1) - x(d.x0) - 1)
         .attr("height", d => histogramInnerHeight - y(d.length))
-        .attr("fill", "#e50914")
+        .attr("fill", "#39FF14") // Neon green
         .on("mouseover", function (event, d) {
-            d3.select(this).attr("fill", "#ff4c4c");
+            d3.select(this).attr("fill", "#76FF40"); // Lighter neon green on hover
             histogramTooltip
                 .style("opacity", 1)
                 .html(`<strong>${d.length}</strong> movies<br/>${d.x0}–${d.x1} min`)
@@ -97,7 +97,7 @@ function updateHistogram(data) {
                 .style("top", `${event.layerY - 20}px`);
         })
         .on("mouseout", function () {
-            d3.select(this).attr("fill", "#e50914");
+            d3.select(this).attr("fill", "#39FF14"); // Revert to neon green
             histogramTooltip.style("opacity", 0);
         });
 }

@@ -76,8 +76,7 @@ function updateBarDirector(data) {
         .attr("transform", `translate(0,${barDirectorInnerHeight})`)
         .call(d3.axisBottom(x).ticks(5))
         .selectAll("text")
-        .style("fill", "#fff")
-
+        .style("fill", "#fff");
 
     // Bars
     barDirectorSvg.selectAll(".bar")
@@ -89,9 +88,9 @@ function updateBarDirector(data) {
         .attr("height", y.bandwidth())
         .attr("x", 0)
         .attr("width", d => x(d.count))
-        .attr("fill", "#e50914")
+        .attr("fill", "#00CED1") // ferozee color
         .on("mouseover", function (event, d) {
-            d3.select(this).attr("fill", "#ff4c4c");
+            d3.select(this).attr("fill", "#40E0D0"); // lighter turquoise
             barDirectorTooltip
                 .style("opacity", 1)
                 .html(`<strong>${d.director}</strong>: ${d.count} titles`)
@@ -104,7 +103,7 @@ function updateBarDirector(data) {
                 .style("top", `${event.layerY - 20}px`);
         })
         .on("mouseout", function () {
-            d3.select(this).attr("fill", "#e50914");
+            d3.select(this).attr("fill", "#00CED1"); // revert to ferozee
             barDirectorTooltip.style("opacity", 0);
         });
 }
