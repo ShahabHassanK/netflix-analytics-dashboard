@@ -54,6 +54,9 @@ header h1 {
     border: 1px solid #555;
     border-radius: 5px;
 }
+.filters label, .filters select {
+    margin: 0 10px;
+}
 
 /* KPIs Section */
 .kpis {

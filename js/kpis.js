@@ -1,7 +1,7 @@
 // Global reference to all data
 let netflixData = [];
 
-// Load data and initialize KPIs
+// Load data and initialize KPIs + Filters
 d3.csv("data/netflix_titles.csv").then(data => {
     // Clean and parse data
     data.forEach(d => {
@@ -21,30 +21,67 @@ d3.csv("data/netflix_titles.csv").then(data => {
             .text(year);
     });
 
-    // Initial render
-    updateDashboard("All");
+    // Populate country dropdown
+    const countrySet = new Set();
+    data.forEach(d => {
+        d.country.split(",").forEach(c => {
+            countrySet.add(c.trim());
+        });
+    });
+    const sortedCountries = Array.from(countrySet).sort();
+    sortedCountries.forEach(country => {
+        d3.select("#countryFilter")
+            .append("option")
+            .attr("value", country)
+            .text(country);
+    });
 
-    // Listen to filter change
+    // Initial render
+    updateDashboard("All", "All");
+
+    // Listeners
     d3.select("#yearFilter").on("change", function () {
         const selectedYear = this.value;
-        updateDashboard(selectedYear);
+        const selectedCountry = d3.select("#countryFilter").property("value");
+        updateDashboard(selectedYear, selectedCountry);
+    });
+
+    d3.select("#countryFilter").on("change", function () {
+        const selectedCountry = this.value;
+        const selectedYear = d3.select("#yearFilter").property("value");
+        updateDashboard(selectedYear, selectedCountry);
     });
 });
 
-function updateDashboard(year) {
-    let filtered = year === "All"
-        ? netflixData
-        : netflixData.filter(d => d.release_year === +year);
+function updateDashboard(year, country) {
+    // Apply both filters
+    let filtered = netflixData;
+
+    if (year !== "All") {
+        filtered = filtered.filter(d => d.release_year === +year);
+    }
+
+    if (country !== "All") {
+        filtered = filtered.filter(d =>
+            d.country.split(",").map(c => c.trim()).includes(country)
+        );
+    }
 
     renderKPIs(filtered);
 
-    // Trigger chart updates here later
+    // Charts affected by BOTH year and country filters
     if (typeof updatePieChart === 'function') updatePieChart(filtered);
-    if (typeof updateBarCountry === 'function') updateBarCountry(filtered);
-    if (typeof updateBarDirector === 'function') updateBarDirector(filtered);
-    if (typeof updateHistogram === 'function') updateHistogram(filtered);
     if (typeof updateDonutChart === 'function') updateDonutChart(filtered);
     if (typeof updateTreemap === 'function') updateTreemap(filtered);
+
+    // Charts affected by YEAR ONLY
+    const yearFiltered = year === "All"
+        ? netflixData
+        : netflixData.filter(d => d.release_year === +year);
+
+    if (typeof updateBarCountry === 'function') updateBarCountry(yearFiltered);
+    if (typeof updateBarDirector === 'function') updateBarDirector(yearFiltered);
+    if (typeof updateHistogram === 'function') updateHistogram(yearFiltered);
 }
 
 function renderKPIs(data) {
