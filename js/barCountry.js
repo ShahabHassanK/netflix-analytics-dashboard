@@ -41,7 +41,9 @@ function updateBarCountry(data) {
         if (d.country) {
             d.country.split(",").forEach(country => {
                 country = country.trim();
-                countryCounts[country] = (countryCounts[country] || 0) + 1;
+                if (country !== "Unknown") {  // Exclude 'Unknown'
+                    countryCounts[country] = (countryCounts[country] || 0) + 1;
+                }
             });
         }
     });
